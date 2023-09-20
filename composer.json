@@ -1,0 +1,26 @@
+{
+    "name": "webscale-networks/magento-varnish-api",
+    "description": "Webscale module responsible for managing varnish cache",
+    "type": "magento2-module",
+    "license": [
+        "MIT"
+    ],
+    "version": "1.0.0",
+    "require": {
+        "php": "^7.2 || ^8.1",
+        "magento/magento2-base": "2.3.* || 2.4.*"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Webscale\\Varnish\\": ""
+        }
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true
+    }
+}
+

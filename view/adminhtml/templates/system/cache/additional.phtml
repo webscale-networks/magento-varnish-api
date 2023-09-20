@@ -1,0 +1,23 @@
+<?php
+/**
+ * Copyright © Webscale. All rights reserved.
+ * See LICENSE for license details.
+ */
+
+/** @var \Webscale\Varnish\Block\System\Cache\Additional $block */
+?>
+
+<?php if ($block->isEnabled()): ?>
+<form id="purge_all_form" name="purge_all_form" method="post"
+      action="<?= /* @noEscape */ $block->getPurgeAllUrl() ?>">
+    <input type="hidden" name="form_key" value="<?= /* @noEscape */ $block->getFormKey() ?>" />
+    <div class="additional-cache-management">
+        <p>
+            <button type="submit" class="scalable">
+                <?= /* @noEscape */ __('Flush Varnish Cache') ?>
+            </button>
+            <span><?= /* @noEscape */ __('Webscale varnish cache.') ?></span>
+        </p>
+    </div>
+</form>
+<?php endif; ?>

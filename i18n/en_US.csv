@@ -1,0 +1,16 @@
+"Magento is configured to use the built-in Full Page Cache. To use Webscale varnish caching please change ""Caching Application"" to ""Varnish Cache"" under the ""Full Page Cache"" tab in <a href=""%1"">System Configuration</a>","Magento is configured to use the built-in Full Page Cache. To use Webscale varnish caching please change ""Caching Application"" to ""Varnish Cache"" under the ""Full Page Cache"" tab in <a href=""%1"">System Configuration</a>"
+"Please configure API Token.","Please configure API Token."
+"To be able to use Webscale varnish cache please configure ""Application Id"".","To be able to use Webscale varnish cache please configure ""Application Id""."
+"Varnish cache flushed successfully.","Varnish cache flushed successfully."
+"There is error occurred while trying to purge varnish cache. Please refer to logs for more information.","There is error occurred while trying to purge varnish cache. Please refer to logs for more information."
+"Flush Varnish Cache","Flush Varnish Cache"
+"Webscale varnish cache.","Webscale varnish cache."
+Webscale,Webscale
+Varnish,Varnish
+"General Configuration","General Configuration"
+Enabled,Enabled
+Application,Application
+"API Token","API Token"
+"Application Id","Application Id"
+Developer,Developer
+"Enable Debug","Enable Debug"
