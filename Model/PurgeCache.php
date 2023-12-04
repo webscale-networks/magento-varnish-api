@@ -62,7 +62,10 @@ class PurgeCache
 
         try {
             $uri = $this->config->getCacheUri();
+
             $params = $this->config->generateCacheParams($purge);
+            $params['event'] = !empty($purge['event']) ? $purge['event'] : '';
+
             $response = $this->api->doRequest($uri, $params, Request::HTTP_METHOD_POST);
 
             $tagsPattern = (!empty($purge['tagsPattern']) && is_array($purge['tagsPattern']))

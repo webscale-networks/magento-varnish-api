@@ -24,6 +24,10 @@ class Config extends AbstractHelper
 
     public const XML_PATH_DEBUG = 'webscale_varnish/developer/debug';
 
+    public const XML_PATH_EVENTS_ALL = 'webscale_varnish/cache_events/flush_all_events';
+
+    public const XML_PATH_EVENTS_PARTIAL = 'webscale_varnish/cache_events/partial_invalidate_events';
+
 
     /** @var ModuleListInterface $moduleList */
     private $moduleList;
@@ -104,6 +108,38 @@ class Config extends AbstractHelper
     }
 
     /**
+     * Retrieve flush all events array
+     *
+     * @return array
+     */
+    public function getEventsFlushAll()
+    {
+        $events = $this->scopeConfig->getValue(self::XML_PATH_EVENTS_ALL);
+
+        if (empty($events)) {
+            return [];
+        }
+
+        return explode(',', $events);
+    }
+
+    /**
+     * Retrieve partial invalidate events array
+     *
+     * @return array
+     */
+    public function getEventsPartialInvalidate()
+    {
+        $events = $this->scopeConfig->getValue(self::XML_PATH_EVENTS_PARTIAL);
+
+        if (empty($events)) {
+            return [];
+        }
+
+        return explode(',', $events);
+    }
+
+    /**
      * Prepare service URL
      *
      * @return string
@@ -121,12 +157,12 @@ class Config extends AbstractHelper
      */
     public function generateCacheParams(array $purge = []) {
         $params = [
-            "json" => [
-                "type" => "invalidate-cache",
-                "target" => "/v2/applications/" . $this->getApplicationId(),
-                "parameters" => [
-                    "urls" => ["*://*/*"],
-                    "tags" => !empty($purge['tagsPattern']) ? $purge['tagsPattern'] : [".*"],
+            'json' => [
+                'type' => 'invalidate-cache',
+                'target' => '/v2/applications/' . $this->getApplicationId(),
+                'parameters' => [
+                    'urls' => ['*://*/*'],
+                    'tags' => !empty($purge['tagsPattern']) ? $purge['tagsPattern'] : ['.*'],
                 ]
             ],
         ];
