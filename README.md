@@ -2,10 +2,22 @@
 Allows to setup and configure Webscale varnish cache implementation.
 
 ## Installation
-To install extension run the following in magento root directory:
-
+To install extension start with the following in magento root directory to add repository:
 ```console
-composer config repositories.webscale-networks git https://github.com/webscale-networks/magento-varnish-api.git
+composer config repositories.webscale-networks-api git https://github.com/webscale-networks/magento-varnish-api.git
+```
+
+To avoid issues with CI/CD and github add `"no-api": true` to the repo settings, so it looks like this:
+```console
+"webscale-networks-api": {
+    "type": "git",
+    "url": "https://github.com/webscale-networks/magento-varnish-api.git",
+    "no-api": true
+}
+```
+
+Now require extension itself:
+```console
 composer require webscale-networks/magento-varnish-api
 ```
 

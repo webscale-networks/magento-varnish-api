@@ -38,7 +38,23 @@
                     <label>Application Id</label>
                 </field>
             </group>
-            <group id="developer" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+            <group id="cache_events" translate="label" type="text" sortOrder="25" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Cache Events</label>
+                <depends>
+                    <field id="webscale_varnish/general/enabled">1</field>
+                </depends>
+                <field id="flush_all_events" translate="label" type="multiselect" sortOrder="1" showInDefault="1" showInWebsite="1" canRestore="1">
+                    <label>Flush All Events</label>
+                    <source_model>Webscale\Varnish\Model\Config\Source\FlushAllEvents</source_model>
+                    <can_be_empty>1</can_be_empty>
+                </field>
+                <field id="partial_invalidate_events" translate="label" type="multiselect" sortOrder="2" showInDefault="1" showInWebsite="1" canRestore="1">
+                    <label>Partial Invalidate Events</label>
+                    <source_model>Webscale\Varnish\Model\Config\Source\InvalidateEvents</source_model>
+                    <can_be_empty>1</can_be_empty>
+                </field>
+            </group>
+            <group id="developer" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
                 <label>Developer</label>
                 <depends>
                     <field id="webscale_varnish/general/enabled">1</field>

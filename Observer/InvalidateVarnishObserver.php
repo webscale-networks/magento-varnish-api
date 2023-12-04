@@ -55,9 +55,15 @@ class InvalidateVarnishObserver implements ObserverInterface
      */
     public function execute(Observer $observer): void
     {
+        $event = $observer->getEvent();
+        $events = $this->config->getEventsPartialInvalidate();
+
         try {
-            if ($this->cacheConfig->getType() == CacheConfig::VARNISH && $this->config->isAvailable()) {
-                $object = $observer->getEvent()->getObject();
+            if ($this->cacheConfig->getType() == CacheConfig::VARNISH
+                && $this->config->isAvailable()
+                && in_array($event->getName(), $events)
+            ) {
+                $object = $event->getObject();
                 $tags = [];
                 if ($object instanceof IdentityInterface) {
                     foreach ($object->getIdentities() as $tag) {
@@ -71,7 +77,7 @@ class InvalidateVarnishObserver implements ObserverInterface
                     }
 
                     if (!empty($tags)) {
-                        $this->purgeCache->sendPurgeRequest(['tagsPattern' => $tags]);
+                        $this->purgeCache->sendPurgeRequest(['tagsPattern' => $tags, 'event' => $event->getName()]);
                     }
                 }
             }

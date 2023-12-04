@@ -47,9 +47,15 @@ class FlushAllCacheObserver implements ObserverInterface
      */
     public function execute(Observer $observer): void
     {
+        $event = $observer->getEvent();
+        $events = $this->config->getEventsFlushAll();
+
         try {
-            if ($this->cacheConfig->getType() == CacheConfig::VARNISH && $this->config->isAvailable()) {
-                $this->purgeCache->sendPurgeRequest(['tagsPattern' => ['.*']]);
+            if ($this->cacheConfig->getType() == CacheConfig::VARNISH
+                && $this->config->isAvailable()
+                && in_array($event->getName(), $events)
+            ) {
+                $this->purgeCache->sendPurgeRequest(['tagsPattern' => ['.*'], 'event' => $event->getName()]);
             }
         } catch (\Exception $e) {
             $this->config->log($e->getMessage() . PHP_EOL . $e->getTraceAsString(), 'critical');
