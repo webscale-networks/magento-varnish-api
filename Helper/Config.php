@@ -112,11 +112,9 @@ class Config extends AbstractHelper
      *
      * @return array
      */
-    public function getEventsFlushAll()
+    public function getEventsFlushAll(): array
     {
-        $events = $this->scopeConfig->getValue(self::XML_PATH_EVENTS_ALL);
-
-        return is_array($events) ? $events : explode(',', $events);
+        return $this->getEventList(self::XML_PATH_EVENTS_ALL);
     }
 
     /**
@@ -124,10 +122,19 @@ class Config extends AbstractHelper
      *
      * @return array
      */
-    public function getEventsPartialInvalidate()
+    public function getEventsPartialInvalidate(): array
     {
-        $events = $this->scopeConfig->getValue(self::XML_PATH_EVENTS_PARTIAL);
+        return $this->getEventList(self::XML_PATH_EVENTS_PARTIAL);
+    }
 
+    /**
+     * @param string $scope
+     * @return array
+     */
+    public function getEventList($scope): array
+    {
+        $events = $this->scopeConfig->getValue($scope);
+        if (empty($events)) $events = [];
         return is_array($events) ? $events : explode(',', $events);
     }
 
@@ -136,7 +143,7 @@ class Config extends AbstractHelper
      *
      * @return string
      */
-    public function getCacheUri()
+    public function getCacheUri(): string
     {
         return '/v2/tasks';
     }
@@ -147,8 +154,9 @@ class Config extends AbstractHelper
      * @param array $purge
      * @return array
      */
-    public function generateCacheParams(array $purge = []) {
-        $params = [
+    public function generateCacheParams(array $purge = []): array
+    {
+        return [
             'json' => [
                 'type' => 'invalidate-cache',
                 'target' => '/v2/applications/' . $this->getApplicationId(),
@@ -158,8 +166,6 @@ class Config extends AbstractHelper
                 ]
             ],
         ];
-
-        return $params;
     }
 
     /**
