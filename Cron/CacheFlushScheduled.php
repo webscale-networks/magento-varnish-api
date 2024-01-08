@@ -4,16 +4,16 @@
  * See LICENSE for license details.
  */
 
-namespace Webscale\Varnish\Observer;
+namespace Webscale\Varnish\Cron;
 
-use Magento\Framework\Event\Observer;
+use Webscale\Varnish\Helper\Config;
 use Magento\PageCache\Model\Config as CacheConfig;
 use Webscale\Varnish\Model\PurgeCache;
-use Webscale\Varnish\Helper\Config;
-use Magento\Framework\Event\ObserverInterface;
 
-class FlushAllCacheObserver implements ObserverInterface
+class CacheFlushScheduled
 {
+    const EVENT_NAME = 'webscale_varnish_flush_all_scheduled';
+
     /** @var Config $config */
     private $config;
 
@@ -24,9 +24,7 @@ class FlushAllCacheObserver implements ObserverInterface
     private $purgeCache;
 
     /**
-     * @param CacheConfig $cacheConfig
      * @param Config $config
-     * @param PurgeCache $purgeCache
      */
     public function __construct(
         CacheConfig $cacheConfig,
@@ -39,27 +37,22 @@ class FlushAllCacheObserver implements ObserverInterface
     }
 
     /**
-     * Flush all cache
-     *
-     * @param Observer $observer
      * @return void
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function execute(Observer $observer): void
-    {
-        $event = $observer->getEvent();
-        $events = $this->config->getEventsFlushAll();
-
+    public function execute() {
         try {
-            if ($this->cacheConfig->getType() == CacheConfig::VARNISH
+            if (
+                $this->cacheConfig->getType() == CacheConfig::VARNISH
                 && $this->config->isAvailable()
-                && in_array($event->getName(), $events)
-                && empty($this->config->getCronExpression())
+                && !empty($this->config->getCronExpression())
             ) {
-                $this->purgeCache->sendPurgeRequest(['tagsPattern' => ['.*'], 'event' => $event->getName()]);
+                $this->purgeCache->sendPurgeRequest(['tagsPattern' => ['.*'], 'event' => self::EVENT_NAME]);
+                $this->config->log('Executed scheduled varnish cache flush.');
             }
         } catch (\Exception $e) {
+            $this->config->log('Unable to execute scheduled varnish cache flush.');
             $this->config->log($e->getMessage() . PHP_EOL . $e->getTraceAsString(), 'critical');
         }
+
     }
 }

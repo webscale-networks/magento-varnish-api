@@ -6,12 +6,12 @@
 
 namespace Webscale\Varnish\Helper;
 
+use Webscale\Varnish\Model\Config\Source\Cron\Frequency;
+use Webscale\Varnish\Model\Config\Cron\ScheduleFrequency;
 use Magento\Framework\App\Config\Storage\WriterInterface;
-use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
 use Magento\Framework\Module\ModuleListInterface;
-use Webscale\Varnish\Service\Api;
 use Webscale\Varnish\Logger\Logger;
 
 class Config extends AbstractHelper
@@ -28,6 +28,9 @@ class Config extends AbstractHelper
 
     public const XML_PATH_EVENTS_PARTIAL = 'webscale_varnish/cache_events/partial_invalidate_events';
 
+    public const XML_PATH_CACHE_SCHEDULE_EVERY = 'webscale_varnish/flush_cache_schedule/every';
+
+    public const DEFAULT_CRON_EXPRESSION = ['*', '*', '*', '*', '*'];
 
     /** @var ModuleListInterface $moduleList */
     private $moduleList;
@@ -108,13 +111,37 @@ class Config extends AbstractHelper
     }
 
     /**
+     * Retrieve cache scheduled every
+     *
+     * @return array
+     */
+    public function getCacheScheduleEvery(): array
+    {
+        $every = $this->scopeConfig->getValue(self::XML_PATH_CACHE_SCHEDULE_EVERY);
+
+        return is_array($every) ? $every : explode(',', $every);
+    }
+
+    /**
+     * Retrieve current value for cron expression
+     *
+     * @return string
+     */
+    public function getCronExpression(): string
+    {
+        return (string) $this->scopeConfig->getValue(ScheduleFrequency::CRON_STRING_PATH);
+    }
+
+    /**
      * Retrieve flush all events array
      *
      * @return array
      */
     public function getEventsFlushAll(): array
     {
-        return $this->getEventList(self::XML_PATH_EVENTS_ALL);
+        $events = $this->scopeConfig->getValue(self::XML_PATH_EVENTS_ALL);
+
+        return is_array($events) ? $events : explode(',', $events);
     }
 
     /**
@@ -124,17 +151,8 @@ class Config extends AbstractHelper
      */
     public function getEventsPartialInvalidate(): array
     {
-        return $this->getEventList(self::XML_PATH_EVENTS_PARTIAL);
-    }
+        $events = $this->scopeConfig->getValue(self::XML_PATH_EVENTS_PARTIAL);
 
-    /**
-     * @param string $scope
-     * @return array
-     */
-    public function getEventList($scope): array
-    {
-        $events = $this->scopeConfig->getValue($scope);
-        if (empty($events)) $events = [];
         return is_array($events) ? $events : explode(',', $events);
     }
 
@@ -156,7 +174,7 @@ class Config extends AbstractHelper
      */
     public function generateCacheParams(array $purge = []): array
     {
-        return [
+        $params = [
             'json' => [
                 'type' => 'invalidate-cache',
                 'target' => '/v2/applications/' . $this->getApplicationId(),
@@ -166,6 +184,8 @@ class Config extends AbstractHelper
                 ]
             ],
         ];
+
+        return $params;
     }
 
     /**
@@ -184,6 +204,48 @@ class Config extends AbstractHelper
         }
 
         return $version;
+    }
+
+    /**
+     * @param string $value
+     * @return string
+     */
+    public function getCronExpressionByValue($value, $data = ['every' => '', 'hours' => 0, 'minutes' => 0])
+    {
+        switch($value) {
+            case Frequency::CRON_HOURLY:
+                $result = array_replace(self::DEFAULT_CRON_EXPRESSION, ['0']);
+                break;
+            case Frequency::CRON_DAILY:
+                $result = array_replace( self::DEFAULT_CRON_EXPRESSION, [$data['minutes'], $data['hours']]);
+                break;
+            case Frequency::CRON_CUSTOM:
+                $result = $this->getCustomCronExpression($data['every']);
+                break;
+            default:
+                $result = [];
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param array $every
+     * @return array
+     */
+    private function getCustomCronExpression($every = []): array
+    {
+        $result = [];
+
+        if (is_array($every) && !empty($every[0]) && !empty($every[1])) {
+            if ($every[1]  == 'hour') {
+                $result = array_replace( self::DEFAULT_CRON_EXPRESSION, ['0', '*/' . $every[0]]);
+            } else if ($every[1] == 'min') {
+                $result = array_replace( self::DEFAULT_CRON_EXPRESSION, ['*/' . $every[0]]);
+            }
+        }
+
+        return $result;
     }
 
     /**

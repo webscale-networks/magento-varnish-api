@@ -1,8 +1,18 @@
+"Enabling this feature will disable partial cache invalidation. Full varnish cache flush will be executed instead, according to the cron expression configured below.","Enabling this feature will disable partial cache invalidation. Full varnish cache flush will be executed instead, according to the cron expression configured below."
 "Magento is configured to use the built-in Full Page Cache. To use Webscale varnish caching please change ""Caching Application"" to ""Varnish Cache"" under the ""Full Page Cache"" tab in <a href=""%1"">System Configuration</a>","Magento is configured to use the built-in Full Page Cache. To use Webscale varnish caching please change ""Caching Application"" to ""Varnish Cache"" under the ""Full Page Cache"" tab in <a href=""%1"">System Configuration</a>"
-"Please configure API Token.","Please configure API Token."
+"Please configure API Token and Application Id.","Please configure API Token and Application Id."
 "To be able to use Webscale varnish cache please configure ""Application Id"".","To be able to use Webscale varnish cache please configure ""Application Id""."
 "Varnish cache flushed successfully.","Varnish cache flushed successfully."
 "There is error occurred while trying to purge varnish cache. Please refer to logs for more information.","There is error occurred while trying to purge varnish cache. Please refer to logs for more information."
+"Can't save the cron expression.","Can't save the cron expression."
+Disabled,Disabled
+Hourly,Hourly
+Daily,Daily
+Custom,Custom
+Minute,Minute
+Hour,Hour
+Day,Day
+"--Please Select--","--Please Select--"
 "Flush Varnish Cache","Flush Varnish Cache"
 "Webscale varnish cache.","Webscale varnish cache."
 Webscale,Webscale
@@ -12,5 +22,12 @@ Enabled,Enabled
 Application,Application
 "API Token","API Token"
 "Application Id","Application Id"
+"Cache Events","Cache Events"
+"Flush All Events","Flush All Events"
+"Partial Invalidate Events","Partial Invalidate Events"
+"Scheduled Full Cache Flush","Scheduled Full Cache Flush"
+Frequency,Frequency
+Every,Every
+Time,Time
 Developer,Developer
 "Enable Debug","Enable Debug"
