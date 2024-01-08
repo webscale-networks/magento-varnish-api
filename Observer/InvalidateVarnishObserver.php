@@ -62,6 +62,7 @@ class InvalidateVarnishObserver implements ObserverInterface
             if ($this->cacheConfig->getType() == CacheConfig::VARNISH
                 && $this->config->isAvailable()
                 && in_array($event->getName(), $events)
+                && empty($this->config->getCronExpression())
             ) {
                 $object = $event->getObject();
                 $tags = [];

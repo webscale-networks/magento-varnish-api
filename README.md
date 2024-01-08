@@ -40,23 +40,39 @@ Stores > Configuration > Webscale > Varnish
 
 Enable the module by switching `Enabled` to `Yes` under `General Configuration` section and enter `API token` and `Application Id`:
 
-![Webacale Varnish Configuration](Documentation/enable-extension2.png "Webacale Varnish Configuration Page")
+![Webscale Varnish Configuration](Documentation/enable-extension2.png "Webscale Varnish Configuration Page")
 
 Save the configuration. After setting up API token and Application Id navigate to `Stores > Configuration > Advanced > System`, open `Full Page Cache` section and select `Varnish` in `Caching Application` field:
 
-![Webacale Varnish Configuration](Documentation/caching-application.png "Caching Application")
+![Webscale Varnish Configuration](Documentation/caching-application.png "Caching Application")
 
-### Optional
+## Optional
 
-You can also select `Enable Debug` under `Developer` section - this option will enable more detailed server logs:
+### Debug Mode
 
-![Webacale Varnish Configuration](Documentation/debug-logs.png "Debug Logging")
+You can also select `Enable Debug` under `Developer` section - this will result to more detailed server logs:
+
+![Webscale Varnish Configuration](Documentation/debug-logs.png "Debug Logging")
 
 Log file can be found at `MAGENTO_ROOT/var/log/webscale.log`.
+
+### Cache Events
+
+In this section all the magento observing events listed that is triggering varnish cache flush. By default - all selected, but it can be configured by selecting/deselecting items from list: 
+
+![Webscale Varnish Configuration](Documentation/cache-events.png "Cache Flush by Events")
+
+### Scheduled Full Cache Flush
+
+> Enabling this feature will disable partial cache invalidation. Full varnish cache flush will be executed instead, according to the cron expression configured.
+
+![Webscale Varnish Configuration](Documentation/scheduled-full-cache-flush.png "Scheduled Full Cache Flush")
+
+Choose one of the three frequency modes: hourly, daily or custom. Cron expression helper will display configured cron expression to validate.  
 
 ## Managing Varnish Cache
 
 Webscale varnish cache will be flushed by default with all Magento native cache events, partial by tags or full cache flush.
 To flush specifically Webscale varnish cache navigate to `System > Tools > Cache Management` and click `Flush Varnish Cache` button under `Additional Cache Management` section:
 
-![Webacale Varnish Configuration](Documentation/flush-cache.png "Flush Cache")
+![Webscale Varnish Configuration](Documentation/flush-cache.png "Flush Cache")

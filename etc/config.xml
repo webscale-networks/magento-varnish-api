@@ -19,9 +19,28 @@
                 <flush_all_events><![CDATA[clean_media_cache_after,clean_catalog_images_cache_after,adminhtml_cache_refresh_type,adminhtml_cache_flush_all,assign_theme_to_stores_after]]></flush_all_events>
                 <partial_invalidate_events><![CDATA[clean_cache_by_tags,assigned_theme_changed,catalogrule_after_apply,controller_action_postdispatch_adminhtml_system_currency_saveRates,controller_action_postdispatch_adminhtml_system_config_save,controller_action_postdispatch_adminhtml_catalog_product_action_attribute_save,controller_action_postdispatch_adminhtml_catalog_product_massStatus,controller_action_postdispatch_adminhtml_system_currencysymbol_save,clean_cache_after_reindex,adminhtml_cache_flush_system]]></partial_invalidate_events>
             </cache_events>
+            <flush_cache_schedule>
+                <frequency/>
+                <every/>
+                <start_time/>
+            </flush_cache_schedule>
             <developer>
                 <debug>0</debug>
             </developer>
         </webscale_varnish>
+        <crontab>
+            <default>
+                <jobs>
+                    <webscale_varnish_cache_flush_scheduled>
+                        <schedule>
+                            <cron_expr/>
+                        </schedule>
+                        <run>
+                            <model/>
+                        </run>
+                    </webscale_varnish_cache_flush_scheduled>
+                </jobs>
+            </default>
+        </crontab>
     </default>
 </config>

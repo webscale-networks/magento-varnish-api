@@ -54,6 +54,30 @@
                     <can_be_empty>1</can_be_empty>
                 </field>
             </group>
+            <group id="flush_cache_schedule" translate="label" type="text" sortOrder="26" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Scheduled Full Cache Flush</label>
+                <frontend_model>Webscale\Varnish\Block\System\Config\Scheduled</frontend_model>
+                <field id="frequency" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Frequency</label>
+                    <source_model>Webscale\Varnish\Model\Config\Source\Cron\Frequency</source_model>
+                    <backend_model>Webscale\Varnish\Model\Config\Cron\ScheduleFrequency</backend_model>
+                    <comment model="Webscale\Varnish\Block\Adminhtml\Form\Renderer\Config\ScheduleEveryFieldComment" />
+                </field>
+                <field id="every" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Every</label>
+                    <frontend_model>Webscale\Varnish\Block\Adminhtml\Form\Renderer\Config\ScheduleEveryFieldConfig</frontend_model>
+                    <validate>required-entry validate-digits</validate>
+                    <depends>
+                        <field id="*/*/frequency">custom</field>
+                    </depends>
+                </field>
+                <field id="start_time" translate="label comment" sortOrder="2" type="time" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Time</label>
+                    <depends>
+                        <field id="*/*/frequency">D</field>
+                    </depends>
+                </field>
+            </group>
             <group id="developer" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
                 <label>Developer</label>
                 <depends>
