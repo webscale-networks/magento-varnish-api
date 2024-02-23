@@ -141,7 +141,7 @@ class Config extends AbstractHelper
     {
         $events = $this->scopeConfig->getValue(self::XML_PATH_EVENTS_ALL);
 
-        return is_array($events) ? $events : explode(',', $events);
+        return is_array($events) ? $events : explode(',', (string) $events);
     }
 
     /**
@@ -153,7 +153,7 @@ class Config extends AbstractHelper
     {
         $events = $this->scopeConfig->getValue(self::XML_PATH_EVENTS_PARTIAL);
 
-        return is_array($events) ? $events : explode(',', $events);
+        return is_array($events) ? $events : explode(',', (string) $events);
     }
 
     /**
