@@ -38,6 +38,9 @@ class Config extends AbstractHelper
     /** @var Logger $logger */
     protected $logger;
 
+    /** @var WriterInterface $writerInterface */
+    protected $writerInterface;
+
     /**
      * @param Context $context
      * @param ModuleListInterface $moduleList
