@@ -120,9 +120,7 @@ class Config extends AbstractHelper
      */
     public function getCacheScheduleEvery(): array
     {
-        $every = $this->scopeConfig->getValue(self::XML_PATH_CACHE_SCHEDULE_EVERY);
-
-        return is_array($every) ? $every : explode(',', $every);
+        return $this->getArrayValue(self::XML_PATH_CACHE_SCHEDULE_EVERY);
     }
 
     /**
@@ -142,9 +140,7 @@ class Config extends AbstractHelper
      */
     public function getEventsFlushAll(): array
     {
-        $events = $this->scopeConfig->getValue(self::XML_PATH_EVENTS_ALL);
-
-        return is_array($events) ? $events : explode(',', $events);
+        return $this->getArrayValue(self::XML_PATH_EVENTS_ALL);
     }
 
     /**
@@ -154,9 +150,7 @@ class Config extends AbstractHelper
      */
     public function getEventsPartialInvalidate(): array
     {
-        $events = $this->scopeConfig->getValue(self::XML_PATH_EVENTS_PARTIAL);
-
-        return is_array($events) ? $events : explode(',', $events);
+        return $this->getArrayValue(self::XML_PATH_EVENTS_PARTIAL);
     }
 
     /**
@@ -249,6 +243,22 @@ class Config extends AbstractHelper
         }
 
         return $result;
+    }
+
+    /**
+     * Retrieve multiselect values from store config
+     *
+     * @param string $path
+     * @return array
+     */
+    public function getArrayValue(string $path): array
+    {
+        $value = $this->scopeConfig->getValue($path);
+        if (!empty($value)) {
+            return is_array($value) ? $value : explode(',', $value);
+        }
+
+        return [];
     }
 
     /**

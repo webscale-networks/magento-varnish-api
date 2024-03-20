@@ -27,7 +27,7 @@ class All extends AbstractController implements HttpPostActionInterface
                     'event' => 'adminhtml_manual_flush_all'
                 ])) {
                     $this->messageManager->addSuccessMessage(
-                        __('Varnish cache flushed successfully.')
+                        __('VelocityEDGE cache flushed successfully.')
                     );
                 } else {
                     $this->messageManager->addErrorMessage(

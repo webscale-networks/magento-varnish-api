@@ -13,7 +13,7 @@
         </tab>
         <section id="webscale_varnish" translate="label" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
             <class>separator-top</class>
-            <label>Varnish</label>
+            <label>VelocityEDGE</label>
             <tab>webscale</tab>
             <resource>Webscale_Varnish::varnish_config</resource>
             <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">

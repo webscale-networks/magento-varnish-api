@@ -10,7 +10,7 @@
     <acl>
         <resources>
             <resource id="Magento_Backend::admin">
-                <resource id="Webscale_Varnish::varnish_config" title="Webscale Varnish" sortOrder="90" />
+                <resource id="Webscale_Varnish::varnish_config" title="Webscale VelocityEDGE" sortOrder="90" />
             </resource>
         </resources>
     </acl>
