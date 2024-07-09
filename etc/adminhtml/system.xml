@@ -71,6 +71,12 @@
                         <field id="*/*/frequency">custom</field>
                     </depends>
                 </field>
+                <field id="starting_at" translate="label" type="time" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Starting at</label>
+                    <depends>
+                        <field id="*/*/frequency">custom</field>
+                    </depends>
+                </field>
                 <field id="start_time" translate="label comment" sortOrder="2" type="time" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Time</label>
                     <depends>
