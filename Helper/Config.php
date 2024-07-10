@@ -241,7 +241,7 @@ class Config extends AbstractHelper
             if ($every[1]  == 'hour') {
                 $result = array_replace( self::DEFAULT_CRON_EXPRESSION, [$startingAtMin, $startingAtHour . '/' . $every[0]]);
             } else if ($every[1] == 'min') {
-                $result = array_replace(self::DEFAULT_CRON_EXPRESSION, [$startingAtMin.'/' . $every[0]]);
+                $result = array_replace(self::DEFAULT_CRON_EXPRESSION, ['*/' . $every[0]]);
             }
         }
 
