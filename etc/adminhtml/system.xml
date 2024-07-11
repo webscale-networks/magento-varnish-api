@@ -57,6 +57,9 @@
             <group id="flush_cache_schedule" translate="label" type="text" sortOrder="26" showInDefault="1" showInWebsite="0" showInStore="0">
                 <label>Scheduled Full Cache Flush</label>
                 <frontend_model>Webscale\Varnish\Block\System\Config\Scheduled</frontend_model>
+                <depends>
+                    <field id="webscale_varnish/general/enabled">1</field>
+                </depends>
                 <field id="frequency" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Frequency</label>
                     <source_model>Webscale\Varnish\Model\Config\Source\Cron\Frequency</source_model>
