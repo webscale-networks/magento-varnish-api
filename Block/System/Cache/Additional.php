@@ -44,7 +44,7 @@ class Additional extends Template
         return $this->getUrl('webscalevarnish/purge/all', ['_current' => true]);
     }
 
-    public function getPurgeByUrlUrl(): string
+    public function getPurgeByUrl(): string
     {
         return $this->getUrl('webscalevarnish/purge/url', ['_current' => true]);
     }

@@ -27,7 +27,7 @@ class Url extends AbstractController implements HttpPostActionInterface
             if ($this->cacheConfig->getType() == CacheConfig::VARNISH && $this->config->isAvailable()) {
                 if ($this->purgeCache->sendPurgeRequest([
                     'tagsPattern' => $urlsArray,
-                    'event' => 'adminhtml_manual_flush_all'
+                    'event' => 'adminhtml_manual_flush_by_url'
                 ])) {
                     $this->messageManager->addSuccessMessage(
                         __('VelocityEDGE cache flushed successfully.')
