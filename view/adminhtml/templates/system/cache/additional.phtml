@@ -20,4 +20,22 @@
         </p>
     </div>
 </form>
+<form id="purge_by_url_form" name="purge_by_url_form" method="post"
+      action="<?= /* @noEscape */ $block->getPurgeByUrl() ?>">
+    <input type="hidden" name="form_key" value="<?= /* @noEscape */ $block->getFormKey() ?>" />
+    <div class="additional-cache-management">
+        <p>
+            <textarea cols="50" rows="4" class="input-text admin__control-textarea" type="textarea" name="purge_url" id="purge_url" placeholder="http://domain.com/index.html
+ *.example.com/path/*/home
+ /
+ /*" ></textarea>
+        </p>
+        <p>
+            <button type="submit" class="scalable">
+                <?= /* @noEscape */ __('Purge VelocityEDGE Cache by URL') ?>
+            </button>
+            <span><?= /* @noEscape */ __('Purge a specific URL from the Webscale VelocityEDGE cache.') ?></span>
+        </p>
+
+</form>
 <?php endif; ?>
