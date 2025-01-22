@@ -176,8 +176,8 @@ class Config extends AbstractHelper
                 'type' => 'invalidate-cache',
                 'target' => '/v2/applications/' . $this->getApplicationId(),
                 'parameters' => [
-                    'urls' => ['*://*/*'],
-                    'tags' => !empty($purge['tagsPattern']) ? $purge['tagsPattern'] : ['.*'],
+                    'urls' => !empty($purge['urls']) ? $purge['urls'] : ['*://*/*'],
+                    'tags' => !empty($purge['tags']) ? $purge['tags'] : [],
                 ]
             ],
         ];

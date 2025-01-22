@@ -13,6 +13,7 @@ use Magento\Framework\App\ResponseInterface;
 
 class Url extends AbstractController implements HttpPostActionInterface
 {
+    const FIELD_NAME_TAGS = 'purge_tags';
     const FIELD_NAME_URLS = 'purge_url';
     /**
      * Retrieve accounts
@@ -22,11 +23,13 @@ class Url extends AbstractController implements HttpPostActionInterface
     public function execute(): ResponseInterface
     {
         try {
+            $tagsArray = preg_split('/\n|\r\n?/', $this->getRequest()->getParam(self::FIELD_NAME_TAGS));
             $urlsArray = preg_split('/\n|\r\n?/', $this->getRequest()->getParam(self::FIELD_NAME_URLS));
 
             if ($this->cacheConfig->getType() == CacheConfig::VARNISH && $this->config->isAvailable()) {
                 if ($this->purgeCache->sendPurgeRequest([
-                    'tagsPattern' => $urlsArray,
+                    'tags' => $tagsArray,
+                    'urls' => $urlsArray,
                     'event' => 'adminhtml_manual_flush_by_url'
                 ])) {
                     $this->messageManager->addSuccessMessage(
