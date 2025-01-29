@@ -177,7 +177,7 @@ class Config extends AbstractHelper
                 'target' => '/v2/applications/' . $this->getApplicationId(),
                 'parameters' => [
                     'urls' => !empty($purge['urls']) ? $purge['urls'] : ['*://*/*'],
-                    'tags' => !empty($purge['tags']) ? $purge['tags'] : [],
+                    'tags' => !empty($purge['tags']) ? $purge['tags'] : ['.*'],
                 ]
             ],
         ];
