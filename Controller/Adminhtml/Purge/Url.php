@@ -23,15 +23,12 @@ class Url extends AbstractController implements HttpPostActionInterface
     public function execute(): ResponseInterface
     {
         try {
+            $tagsArray = $urlsArray = [];
             if(!empty($this->getRequest()->getParam(self::FIELD_NAME_TAGS))) {
                 $tagsArray = preg_split('/\n|\r\n?/', $this->getRequest()->getParam(self::FIELD_NAME_TAGS));
-            } else {
-                $tagsArray = [];
             }
             if(!empty($this->getRequest()->getParam(self::FIELD_NAME_URLS))) {
                 $urlsArray = preg_split('/\n|\r\n?/', $this->getRequest()->getParam(self::FIELD_NAME_URLS));
-            } else {
-                $urlsArray = [];
             }
 
             if ($this->cacheConfig->getType() == CacheConfig::VARNISH && $this->config->isAvailable()) {
