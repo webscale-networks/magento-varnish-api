@@ -31,6 +31,13 @@ class Url extends AbstractController implements HttpPostActionInterface
                 $urlsArray = preg_split('/\n|\r\n?/', $this->getRequest()->getParam(self::FIELD_NAME_URLS));
             }
 
+            if($urlsArray == [] && $tagsArray == []) {
+                $this->messageManager->addErrorMessage(
+                    __('Please provide at least one URL or Tag to purge.')
+                );
+                return $this->_redirect('adminhtml/cache/index', ['_current' => true]);
+            }
+
             if ($this->cacheConfig->getType() == CacheConfig::VARNISH && $this->config->isAvailable()) {
                 if ($this->purgeCache->sendPurgeRequest([
                     'tags' => $tagsArray,
