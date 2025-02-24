@@ -56,7 +56,7 @@ class FlushAllCacheObserver implements ObserverInterface
                 && in_array($event->getName(), $events)
                 && empty($this->config->getCronExpression())
             ) {
-                $this->purgeCache->sendPurgeRequest(['tagsPattern' => ['.*'], 'event' => $event->getName()]);
+                $this->purgeCache->sendPurgeRequest(['tags' => ['.*'], 'event' => $event->getName()]);
             }
         } catch (\Exception $e) {
             $this->config->log($e->getMessage() . PHP_EOL . $e->getTraceAsString(), 'critical');
