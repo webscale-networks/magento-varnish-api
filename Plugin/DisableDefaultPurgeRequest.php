@@ -24,7 +24,7 @@ class DisableDefaultPurgeRequest
      * @param array|string $tags
      * @return bool
      */
-    public function aroundSendPurgeRequest(PurgeCache $subject, callable $proceed, array|string $tags): bool
+    public function aroundSendPurgeRequest(PurgeCache $subject, callable $proceed, $tags): bool
     {
         if ($this->config->isAvailable()) {
             return true;
@@ -32,3 +32,4 @@ class DisableDefaultPurgeRequest
         return $proceed($tags);
     }
 }
+
