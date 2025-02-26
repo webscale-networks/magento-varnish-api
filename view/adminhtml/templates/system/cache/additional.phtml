@@ -20,10 +20,20 @@
         </p>
     </div>
 </form>
+    <br/><hr/><br/>
 <form id="purge_by_url_form" name="purge_by_url_form" method="post"
       action="<?= /* @noEscape */ $block->getPurgeByUrl() ?>">
     <input type="hidden" name="form_key" value="<?= /* @noEscape */ $block->getFormKey() ?>" />
     <div class="additional-cache-management">
+        <p>
+            <?= /* @noEscape */ __("You may invalidate specific items in the site cache identified by their URL wildcard patterns (*) or tags below.") ?><br/>
+            <?= /* @noEscape */ __("If no pattern is specified, the entire site cache is invalidated. If both URL pattern and tags are specified then an intersection of both will be considered to invalidate cache.") ?><br/>
+            <?= /* @noEscape */ __("The pagespeed cache is always completely invalidated."); ?>
+            <?= /* @noEscape */ __("URLs will be ignored if tags are provided.") ?>
+        </p>
+        <p>
+            <label for="purge_url" style="font-weight: bold"><?= /* @noEscape */ __('URL Patterns') ?></label>
+        </p>
         <p>
             <textarea cols="50" rows="4" class="input-text admin__control-textarea" type="textarea" name="purge_url" id="purge_url" placeholder="http://domain.com/index.html
  *.example.com/path/*/home
@@ -31,10 +41,18 @@
  /*" ></textarea>
         </p>
         <p>
+            <label for="purge_tags" style="font-weight: bold"><?= /* @noEscape */ __('Tags') ?></label>
+        </p>
+        <p>
+            <textarea cols="50" rows="4" class="input-text admin__control-textarea" type="textarea" name="purge_tags" id="purge_tags" placeholder="tag1
+tag2
+tag3" ></textarea>
+        </p>
+        <p>
             <button type="submit" class="scalable">
-                <?= /* @noEscape */ __('Purge VelocityEDGE Cache by URL') ?>
+                <?= /* @noEscape */ __('Purge VelocityEDGE Cache by URL/Tags') ?>
             </button>
-            <span><?= /* @noEscape */ __('Purge a specific URL from the Webscale VelocityEDGE cache.') ?></span>
+            <span><?= /* @noEscape */ __('Purge a specific URL/Tag from the Webscale VelocityEDGE cache.') ?></span>
         </p>
 
 </form>

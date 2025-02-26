@@ -13,6 +13,7 @@ use Magento\Framework\App\ResponseInterface;
 
 class Url extends AbstractController implements HttpPostActionInterface
 {
+    const FIELD_NAME_TAGS = 'purge_tags';
     const FIELD_NAME_URLS = 'purge_url';
     /**
      * Retrieve accounts
@@ -22,11 +23,25 @@ class Url extends AbstractController implements HttpPostActionInterface
     public function execute(): ResponseInterface
     {
         try {
-            $urlsArray = preg_split('/\n|\r\n?/', $this->getRequest()->getParam(self::FIELD_NAME_URLS));
+            $tagsArray = $urlsArray = [];
+            if(!empty($this->getRequest()->getParam(self::FIELD_NAME_TAGS))) {
+                $tagsArray = preg_split('/\n|\r\n?/', $this->getRequest()->getParam(self::FIELD_NAME_TAGS));
+            }
+            if(!empty($this->getRequest()->getParam(self::FIELD_NAME_URLS))) {
+                $urlsArray = preg_split('/\n|\r\n?/', $this->getRequest()->getParam(self::FIELD_NAME_URLS));
+            }
+
+            if($urlsArray == [] && $tagsArray == []) {
+                $this->messageManager->addErrorMessage(
+                    __('Please provide at least one URL or Tag to purge.')
+                );
+                return $this->_redirect('adminhtml/cache/index', ['_current' => true]);
+            }
 
             if ($this->cacheConfig->getType() == CacheConfig::VARNISH && $this->config->isAvailable()) {
                 if ($this->purgeCache->sendPurgeRequest([
-                    'tagsPattern' => $urlsArray,
+                    'tags' => $tagsArray,
+                    'urls' => $urlsArray,
                     'event' => 'adminhtml_manual_flush_by_url'
                 ])) {
                     $this->messageManager->addSuccessMessage(

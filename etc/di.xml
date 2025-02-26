@@ -20,4 +20,9 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\CacheInvalidate\Model\PurgeCache">
+        <plugin name="DisableDefaultPurgeRequest"
+                type="Webscale\Varnish\Plugin\DisableDefaultPurgeRequest"
+                sortOrder="10"/>
+    </type>
 </config>
