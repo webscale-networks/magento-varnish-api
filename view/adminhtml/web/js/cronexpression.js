@@ -11,12 +11,17 @@ define(["jquery"], function($) {
         'frequency': '#webscale_varnish_flush_cache_schedule_frequency',
         'everytext': '#webscale_varnish_flush_cache_schedule_every',
         'everytime': '#webscale_varnish_flush_cache_schedule_time',
+        'starting_at': '#webscale_varnish_flush_cache_schedule_starting_at',
+        'starting_at_hour': '[data-ui-id="time-groups-flush-cache-schedule-fields-starting-at-value-hour"]',
+        'starting_at_minute': '[data-ui-id="time-groups-flush-cache-schedule-fields-starting-at-value-minute"]',
+        'starting_at_row': '#row_webscale_varnish_flush_cache_schedule_starting_at',
         'timehour': '[data-ui-id="time-groups-flush-cache-schedule-fields-start-time-value-hour"]',
         'timeminute': '[data-ui-id="time-groups-flush-cache-schedule-fields-start-time-value-minute"]',
         'timesecond': '[data-ui-id="time-groups-flush-cache-schedule-fields-start-time-value-second"]'
     };
 
     let init = function () {
+        // $(items.starting_at_row).hide();
         if (note && note.length) {
             // $(items.timesecond).prop('disabled', 'disabled');
             return bind();
@@ -42,6 +47,10 @@ define(["jquery"], function($) {
             frequency = $(items.frequency),
             timeMinute = $(items.timeminute),
             timeHour = $(items.timehour),
+            startingAt = $(items.starting_at),
+            startingAtHour = $(items.starting_at_hour),
+            startingAtMinute = $(items.starting_at_minute),
+            startingAtRow = $(items.starting_at_row),
             everyText = $(items.everytext),
             everyTime = $(items.everytime);
 
@@ -53,10 +62,19 @@ define(["jquery"], function($) {
                 value = parseInt($(timeMinute).val(), 10) + ' ' + parseInt($(timeHour).val(), 10) + ' * * *';
                 break;
             case 'custom':
+                if(everyTime.val() == 'hour') {
+                    startingAtRow.show();
+                } else if (everyTime.val() == 'min') {
+                    startingAtRow.hide();
+                }
+
                 if (everyText.val() !== "undefined" && everyText.val() !== '') {
                     let txtValue = everyText.val();
+                    let startingAtHourValue = startingAtHour.val();
+                    let startingAtMinuteValue = startingAtMinute.val();
+
                     if (everyTime.val() == 'hour') {
-                        value = '0 */' + txtValue + ' * * *';
+                        value = startingAtMinuteValue + ' ' + startingAtHourValue + '/' + txtValue + ' * * *';
                     } else if (everyTime.val() == 'min') {
                         value = '*/' + txtValue + ' * * * *';
                     }

@@ -77,8 +77,9 @@ class ScheduleFrequency extends Value
         $time = $this->getData('groups/flush_cache_schedule/fields/start_time/value');
         $frequency = $this->getData('groups/flush_cache_schedule/fields/frequency/value');
         $every = $this->getData('groups/flush_cache_schedule/fields/every/value');
+        $startingAt = $this->getData('groups/flush_cache_schedule/fields/starting_at/value');
 
-        $cronExprArray = $this->getCronExpressionArray($frequency, $every, $time);
+        $cronExprArray = $this->getCronExpressionArray($frequency, $every, $time, $startingAt);
         $cronExprString = join(' ', $cronExprArray);
 
         try {
@@ -110,7 +111,7 @@ class ScheduleFrequency extends Value
      * @param string $frequency
      * @return array
      */
-    protected function getCronExpressionArray($frequency = '', $every = '', $time = [])
+    protected function getCronExpressionArray($frequency = '', $every = '', $time = [], $startingAt = null)
     {
         switch ($frequency) {
             case Frequency::CRON_HOURLY:
@@ -124,7 +125,8 @@ class ScheduleFrequency extends Value
                 break;
             case Frequency::CRON_CUSTOM:
                 $cronExprArray = $this->config->getCronExpressionByValue(Frequency::CRON_CUSTOM, [
-                    'every' => $every
+                    'every' => $every,
+                    'starting_at' => $startingAt
                 ]);
                 break;
             default:

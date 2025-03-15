@@ -211,7 +211,7 @@ class Config extends AbstractHelper
      * @param string $value
      * @return string
      */
-    public function getCronExpressionByValue($value, $data = ['every' => '', 'hours' => 0, 'minutes' => 0])
+    public function getCronExpressionByValue($value, $data = ['every' => '', 'starting_at' => '', 'hours' => 0, 'minutes' => 0])
     {
         switch($value) {
             case Frequency::CRON_HOURLY:
@@ -221,7 +221,7 @@ class Config extends AbstractHelper
                 $result = array_replace( self::DEFAULT_CRON_EXPRESSION, [$data['minutes'], $data['hours']]);
                 break;
             case Frequency::CRON_CUSTOM:
-                $result = $this->getCustomCronExpression($data['every']);
+                $result = $this->getCustomCronExpression($data['every'], $data['starting_at']);
                 break;
             default:
                 $result = [];
@@ -232,17 +232,20 @@ class Config extends AbstractHelper
 
     /**
      * @param array $every
+     * @param array $startingAt
      * @return array
      */
-    private function getCustomCronExpression($every = []): array
+    private function getCustomCronExpression($every = [], $startingAt = []): array
     {
         $result = [];
+        $startingAtHour = $startingAt[0] ?? 0;
+        $startingAtMin = $startingAt[1] ?? 0;
 
         if (is_array($every) && !empty($every[0]) && !empty($every[1])) {
             if ($every[1]  == 'hour') {
-                $result = array_replace( self::DEFAULT_CRON_EXPRESSION, ['0', '*/' . $every[0]]);
+                $result = array_replace( self::DEFAULT_CRON_EXPRESSION, [$startingAtMin, $startingAtHour . '/' . $every[0]]);
             } else if ($every[1] == 'min') {
-                $result = array_replace( self::DEFAULT_CRON_EXPRESSION, ['*/' . $every[0]]);
+                $result = array_replace(self::DEFAULT_CRON_EXPRESSION, ['*/' . $every[0]]);
             }
         }
 
