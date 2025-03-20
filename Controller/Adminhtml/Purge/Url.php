@@ -40,7 +40,7 @@ class Url extends AbstractController implements HttpPostActionInterface
 
             if ($this->cacheConfig->getType() == CacheConfig::VARNISH && $this->config->isAvailable()) {
                 if ($this->purgeCache->sendPurgeRequest([
-                    'tagsPattern' => $tagsArray,
+                    'tags' => $tagsArray,
                     'urls' => $urlsArray,
                     'event' => 'adminhtml_manual_flush_by_url'
                 ])) {
