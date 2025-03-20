@@ -173,16 +173,18 @@ class Config extends AbstractHelper
     {
         $params = [
             'json' => [
-                'type' => 'invalidate-cache',
-                'target' => '/v2/applications/' . $this->getApplicationId(),
+                'type'       => 'invalidate-cache',
+                'target'     => '/v2/applications/' . $this->getApplicationId(),
                 'parameters' => []
             ],
         ];
 
-        if(!empty($purge['tags'])) {
+        if (!empty($purge['tagsPattern'])) {
+            $params['json']['parameters']['tags'] = $purge['tagsPattern'];
+        } elseif (!empty($purge['tags'])) {
             $params['json']['parameters']['tags'] = $purge['tags'];
         }
-        if(!empty($purge['urls'])) {
+        if (!empty($purge['urls'])) {
             $params['json']['parameters']['urls'] = $purge['urls'];
         }
 
