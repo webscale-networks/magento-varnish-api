@@ -179,8 +179,8 @@ class Config extends AbstractHelper
             ],
         ];
 
-        if(!empty($purge['tags'])) {
-            $params['json']['parameters']['tags'] = $purge['tags'];
+        if(!empty($purge['tagsPattern'])) {
+            $params['json']['parameters']['tags'] = $purge['tagsPattern'];
         }
         if(!empty($purge['urls'])) {
             $params['json']['parameters']['urls'] = $purge['urls'];
