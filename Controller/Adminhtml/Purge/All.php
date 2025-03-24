@@ -23,7 +23,7 @@ class All extends AbstractController implements HttpPostActionInterface
         try {
             if ($this->cacheConfig->getType() == CacheConfig::VARNISH && $this->config->isAvailable()) {
                 if ($this->purgeCache->sendPurgeRequest([
-                    'tagsPattern' => ['.*'],
+                    'tags' => ['.*'],
                     'event' => 'adminhtml_manual_flush_all'
                 ])) {
                     $this->messageManager->addSuccessMessage(
