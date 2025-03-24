@@ -46,7 +46,7 @@ class CacheFlushScheduled
                 && $this->config->isAvailable()
                 && !empty($this->config->getCronExpression())
             ) {
-                $this->purgeCache->sendPurgeRequest(['tagsPattern' => ['.*'], 'event' => self::EVENT_NAME]);
+                $this->purgeCache->sendPurgeRequest(['tags' => ['.*'], 'event' => self::EVENT_NAME]);
                 $this->config->log('Executed scheduled varnish cache flush.');
             }
         } catch (\Exception $e) {

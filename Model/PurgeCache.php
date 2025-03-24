@@ -70,25 +70,25 @@ class PurgeCache
 
             $response = $this->api->doRequest($uri, $params, Request::HTTP_METHOD_POST);
 
-            $tagsPattern = (!empty($purge['tagsPattern']) && is_array($purge['tagsPattern']))
-                ? implode('|', $purge['tagsPattern'])
+            $tags = (!empty($purge['tags']) && is_array($purge['tags']))
+                ? implode('|', $purge['tags'])
                 : '.*';
 
             if (!in_array($response->getStatusCode(), [200, 201])) {
                 $this->logger->warning(
-                    'Error executing purge: ' . $tagsPattern . ', Error: ' . $response->getReasonPhrase(),
-                    compact('servers', 'tagsPattern')
+                    'Error executing purge: ' . $tags . ', Error: ' . $response->getReasonPhrase(),
+                    compact('servers', 'tags')
                 );
                 return false;
             }
         } catch (\Exception $e) {
             $this->logger->critical(
                 $e->getMessage(),
-                compact('servers', 'tagsPattern')
+                compact('servers', 'tags')
             );
         }
 
-        $this->logger->execute(compact('servers', 'tagsPattern'));
+        $this->logger->execute(compact('servers', 'tags'));
 
         return true;
     }
