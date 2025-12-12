@@ -1,11 +1,11 @@
 {
     "name": "webscale-networks/magento-varnish-api",
-    "description": "VelocityEDGE magento extension",
+    "description": "Webscale Varnish magento extension",
     "type": "magento2-module",
     "license": [
         "MIT"
     ],
-    "version": "1.2.5",
+    "version": "1.2.6",
     "require": {
         "php": "^7.2 || ^8.1",
         "magento/magento2-base": "2.3.* || 2.4.*"

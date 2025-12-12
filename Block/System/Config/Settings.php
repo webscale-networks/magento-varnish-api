@@ -36,7 +36,7 @@ class Settings extends \Webscale\Varnish\Block\System\Config\SettingsAbstract
             $url = $this->urlBuilder->getUrl('adminhtml/system_config/edit/section/system');
             return $this->getMessageWrapper(
                 __('Magento is configured to use the built-in Full Page Cache.' .
-                    ' To use VelocityEDGE please change "Caching Application" to "Varnish Cache"' .
+                    ' To use Webscale Varnish please change "Caching Application" to "Varnish Cache"' .
                     ' under the "Full Page Cache" tab in <a href="%1">System Configuration</a>', $url),
                 'error'
             );

@@ -45,7 +45,7 @@ class Url extends AbstractController implements HttpPostActionInterface
                     'event' => 'adminhtml_manual_flush_by_url'
                 ])) {
                     $this->messageManager->addSuccessMessage(
-                        __('VelocityEDGE cache flushed successfully.')
+                        __('Webscale Varnish cache flushed successfully.')
                     );
                 } else {
                     $this->messageManager->addErrorMessage(
