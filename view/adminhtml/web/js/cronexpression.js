@@ -45,7 +45,11 @@ define(["jquery"], function($) {
             everyText = $(items.everytext),
             everyTime = $(items.everytime);
 
+        everyText.addClass('required-entry');
         switch(frequency.val()) {
+            case '0':
+                everyText.removeClass('required-entry');
+                break;
             case 'H':
                 value = '0 * * * *';
                 break;
