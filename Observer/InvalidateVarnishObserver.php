@@ -29,9 +29,6 @@ class InvalidateVarnishObserver implements ObserverInterface
     /** @var PurgeCache $purgeCache */
     private $purgeCache;
 
-    /** @var array $purged */
-    private $purged = [];
-
     /**
      * @param CacheConfig $cacheConfig
      * @param Config $config
@@ -71,10 +68,7 @@ class InvalidateVarnishObserver implements ObserverInterface
                         if (!is_string($tag)) {
                             continue;
                         }
-                        if (!in_array($tag, $this->purged)) {
-                            $tags[] = $tag;
-                            $this->purged[] = $tag;
-                        }
+                        $tags[] = $tag;
                     }
 
                     if (!empty($tags)) {
