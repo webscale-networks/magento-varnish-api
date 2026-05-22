@@ -51,16 +51,16 @@ class ScheduleFrequency extends Value
      * @param array $data
      */
     public function __construct(
-        Context $context,
-        Registry $registry,
+        Context              $context,
+        Registry             $registry,
         ScopeConfigInterface $scopeConfig,
-        TypeListInterface $cacheTypeList,
-        ValueFactory $configValueFactory,
-        Config $config,
-        AbstractResource $resource = null,
-        AbstractDb $resourceCollection = null,
-        string $runModelPath = '',
-        array $data = []
+        TypeListInterface    $cacheTypeList,
+        ValueFactory         $configValueFactory,
+        Config               $config,
+        ?AbstractResource    $resource = null,
+        ?AbstractDb          $resourceCollection = null,
+        string               $runModelPath = '',
+        array                $data = []
     ) {
         $this->_runModelPath = $runModelPath;
         $this->_configValueFactory = $configValueFactory;
@@ -110,7 +110,7 @@ class ScheduleFrequency extends Value
      * @param string $frequency
      * @return array
      */
-    protected function getCronExpressionArray($frequency = '', $every = '', $time = [])
+    protected function getCronExpressionArray(string $frequency = '', $every = '', $time = [])
     {
         switch ($frequency) {
             case Frequency::CRON_HOURLY:
