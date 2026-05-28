@@ -22,6 +22,16 @@ abstract class SettingsAbstract extends Fieldset
     protected $config;
 
     /**
+     * @var UrlInterface
+     */
+    protected $urlBuilder;
+
+    /**
+     * @var CacheConfig
+     */
+    protected $cacheConfig;
+
+    /**
      * @param Context $context
      * @param Session $authSession
      * @param Js $jsHelper

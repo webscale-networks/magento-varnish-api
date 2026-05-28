@@ -211,7 +211,7 @@ class Config extends AbstractHelper
      * @param string $value
      * @return string
      */
-    public function getCronExpressionByValue($value, $data = ['every' => '', 'hours' => 0, 'minutes' => 0])
+    public function getCronExpressionByValue(string $value, $data = ['every' => '', 'hours' => 0, 'minutes' => 0])
     {
         switch($value) {
             case Frequency::CRON_HOURLY:
@@ -234,7 +234,7 @@ class Config extends AbstractHelper
      * @param array $every
      * @return array
      */
-    private function getCustomCronExpression($every = []): array
+    private function getCustomCronExpression(array $every = []): array
     {
         $result = [];
 
