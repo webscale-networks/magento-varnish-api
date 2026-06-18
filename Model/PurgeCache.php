@@ -75,9 +75,10 @@ class PurgeCache
                 : '.*';
 
             if (!in_array($response->getStatusCode(), [200, 201])) {
+                $error = $response->getReasonPhrase();
                 $this->logger->warning(
-                    'Error executing purge: ' . $tags . ', Error: ' . $response->getReasonPhrase(),
-                    compact('servers', 'tags')
+                    'Error executing purge',
+                    compact('servers', 'tags', 'params', 'error')
                 );
                 return false;
             }
