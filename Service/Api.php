@@ -20,6 +20,9 @@ class Api
 
     private const API_USER_AGENT = 'webscale-magento-cache';
 
+    /** Status reported when the transport error has no usable HTTP code */
+    private const FALLBACK_ERROR_STATUS = 503;
+
     /** @var ResponseFactory */
     private $responseFactory;
 
@@ -80,8 +83,10 @@ class Api
                 $params
             );
         } catch (GuzzleException $exception) {
+            // Connection/timeout errors carry code 0, which Response rejects as an invalid status
+            $code = (int) $exception->getCode();
             $response = $this->responseFactory->create([
-                'status' => $exception->getCode(),
+                'status' => ($code >= 100 && $code <= 599) ? $code : self::FALLBACK_ERROR_STATUS,
                 'reason' => $exception->getMessage()
             ]);
         }
