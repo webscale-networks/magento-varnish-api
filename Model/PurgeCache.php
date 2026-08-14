@@ -59,6 +59,7 @@ class PurgeCache
         }
 
         $servers = $this->cacheServer->getUris();
+        $tags = $this->getTagsPattern($purge);
 
         try {
             $uri = $this->config->getCacheUri();
@@ -69,10 +70,6 @@ class PurgeCache
             $this->config->log('Purge request: ' . $uri . ' ' . json_encode($params), 'debug');
 
             $response = $this->api->doRequest($uri, $params, Request::HTTP_METHOD_POST);
-
-            $tags = (!empty($purge['tags']) && is_array($purge['tags']))
-                ? implode('|', $purge['tags'])
-                : '.*';
 
             if (!in_array($response->getStatusCode(), [200, 201])) {
                 $this->logger->warning(
@@ -86,10 +83,32 @@ class PurgeCache
                 $e->getMessage(),
                 compact('servers', 'tags')
             );
+            return false;
         }
 
         $this->logger->execute(compact('servers', 'tags'));
 
         return true;
+    }
+
+    /**
+     * Build the tags pattern used for logging, tolerating non-string tag values
+     *
+     * @param array $purge
+     * @return string
+     */
+    private function getTagsPattern(array $purge): string
+    {
+        $tags = [];
+
+        if (!empty($purge['tags']) && is_array($purge['tags'])) {
+            foreach ($purge['tags'] as $tag) {
+                if (is_scalar($tag)) {
+                    $tags[] = (string) $tag;
+                }
+            }
+        }
+
+        return empty($tags) ? '.*' : implode('|', $tags);
     }
 }
