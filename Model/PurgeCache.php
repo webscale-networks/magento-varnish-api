@@ -59,7 +59,8 @@ class PurgeCache
         }
 
         $servers = $this->cacheServer->getUris();
-        $tags = $this->getTagsPattern($purge);
+        $tags = $this->getTagsList($purge);
+        $tagsPattern = $this->getTagsPattern($tags);
 
         try {
             $uri = $this->config->getCacheUri();
@@ -73,12 +74,12 @@ class PurgeCache
 
             if (!in_array($response->getStatusCode(), [200, 201])) {
                 $this->logger->warning(
-                    'Error executing purge: ' . $tags . ', Error: ' . $response->getReasonPhrase(),
+                    'Error executing purge: ' . $tagsPattern . ', Error: ' . $response->getReasonPhrase(),
                     compact('servers', 'tags')
                 );
                 return false;
             }
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->logger->critical(
                 $e->getMessage(),
                 compact('servers', 'tags')
@@ -86,29 +87,45 @@ class PurgeCache
             return false;
         }
 
+        // InvalidateLogger::execute() expects 'tags' as an array - the cloud-components
+        // implementation iterates over it, so an imploded pattern triggers a foreach() warning
         $this->logger->execute(compact('servers', 'tags'));
 
         return true;
     }
 
     /**
-     * Build the tags pattern used for logging, tolerating non-string tag values
+     * Extract scalar tags as a plain array
      *
      * @param array $purge
-     * @return string
+     * @return string[]
      */
-    private function getTagsPattern(array $purge): string
+    private function getTagsList(array $purge): array
     {
         $tags = [];
 
         if (!empty($purge['tags']) && is_array($purge['tags'])) {
             foreach ($purge['tags'] as $tag) {
                 if (is_scalar($tag)) {
-                    $tags[] = (string) $tag;
+                    $tag = trim((string) $tag);
+                    if ($tag !== '') {
+                        $tags[] = $tag;
+                    }
                 }
             }
         }
 
+        return array_values(array_unique($tags));
+    }
+
+    /**
+     * Build a human-readable pattern for log messages only
+     *
+     * @param string[] $tags
+     * @return string
+     */
+    private function getTagsPattern(array $tags): string
+    {
         return empty($tags) ? '.*' : implode('|', $tags);
     }
 }
